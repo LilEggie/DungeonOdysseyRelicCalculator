@@ -2,7 +2,7 @@
 (() => {
   "use strict";
 
-  const { parseAmount, formatAmount, formatPercent } = window.RelicNumbers;
+  const { parseAmount, formatAmount, formatPercent, formatLike } = window.RelicNumbers;
 
   /* ---------- Data ---------- */
 
@@ -52,6 +52,8 @@
 
   const usesOOPArt = (relic) => relic.useOOPArt !== false;
   const describe = (relic, value) => relic.description.replace("%", formatPercent(value));
+  const BASIC_DESCRIPTION = "+% Jinwoo's ATK";
+  const describeBasic = (value) => BASIC_DESCRIPTION.replace("%", formatPercent(value));
 
   /* ---------- Elements ---------- */
 
@@ -172,7 +174,7 @@
       const tr = document.createElement("tr");
       tr.append(
         cell(`${step.from} → ${step.to}`, "title"),
-        cell(formatAmount(step.cost), "num cost", "Cost"),
+        cell(formatLike(step.source, step.cost), "num cost", "Cost"),
         cell(formatAmount(step.spent), "num", "Total spent"),
         cell(formatPercent(step.special), "num effect", "Special effect"),
         cell(formatPercent(step.basic), "num basic", "Basic effect"),
@@ -189,7 +191,7 @@
     els.totalNote.textContent = "Relic Fragments";
     if (Number.isInteger(level)) {
       els.basic.textContent = formatPercent(basicAt(relic, level));
-      els.basicNote.textContent = `At level ${level}`;
+      els.basicNote.textContent = describeBasic(basicAt(relic, level));
       els.special.textContent = formatPercent(specialAt(relic, level));
       els.specialNote.textContent = describe(relic, specialAt(relic, level));
     } else {
@@ -281,6 +283,7 @@
         from: level,
         to: level + 1,
         cost,
+        source: costs[level - 1],
         spent,
         basic: basicAt(relic, level + 1),
         special: specialAt(relic, level + 1),
@@ -295,7 +298,7 @@
       ? `After ${formatPercent(reduction)} OOPArt reduction`
       : "OOPArt Compact's own costs aren't reduced";
     els.basic.textContent = formatPercent(basicAt(relic, target));
-    els.basicNote.textContent = `Up from ${formatPercent(basicAt(relic, current))}`;
+    els.basicNote.textContent = describeBasic(basicAt(relic, target));
     els.special.textContent = formatPercent(special);
     els.specialNote.textContent = describe(relic, special) + (maxed ? " (max)" : "");
 
