@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dungeon Odyssey Relic Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Spectral+SC:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Relic Calculator</h1>
+    <p class="sub">Plan your Relic Fragment spending in Dungeon Odyssey</p>
+  </header>
+
+  <main>
+    <div class="tabs" role="tablist" aria-label="Calculators">
+      <button type="button" class="tab" role="tab" id="tab-summon" aria-controls="panel-summon" data-hash="summon">Summoning</button>
+      <button type="button" class="tab" role="tab" id="tab-level-up" aria-controls="panel-level-up" data-hash="level-up">Level up</button>
+    </div>
+
+    <div class="calc" id="panel-summon" role="tabpanel" aria-labelledby="tab-summon">
+    <section class="panel" aria-labelledby="summon-heading">
+      <h2 id="summon-heading">Summoning</h2>
+
+      <div class="fields">
+        <fieldset class="wide">
+          <legend>Calculate by</legend>
+          <div class="segmented">
+            <input type="radio" name="summon-mode" id="mode-count" value="count" checked>
+            <label for="mode-count">Relics to summon</label>
+            <input type="radio" name="summon-mode" id="mode-budget" value="budget">
+            <label for="mode-budget">Fragments to spend</label>
+          </div>
+        </fieldset>
+
+        <div class="tally">
+          <label for="owned">Relics owned</label>
+          <input id="owned" type="number" inputmode="numeric" min="0" step="1" value="0">
+          <p class="hint" id="owned-hint"></p>
+        </div>
+
+        <div class="tally" id="count-field">
+          <label for="count">Relics to summon</label>
+          <input id="count" type="number" inputmode="numeric" min="1" step="1" value="1">
+          <p class="hint" id="count-hint"></p>
+        </div>
+
+        <div class="tally" id="budget-field" hidden>
+          <label for="budget">Fragments to spend</label>
+          <input id="budget" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="e.g. 12.5k">
+          <p class="hint">Plain numbers or k, m, b, t suffixes</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="results-heading">
+      <h2 id="results-heading">Summoning results</h2>
+
+      <div class="summary">
+        <div class="stat cost">
+          <div class="stat-label">Total cost</div>
+          <div class="stat-value" id="total-cost">0</div>
+          <div class="stat-note" id="total-note">Relic Fragments</div>
+        </div>
+        <div class="stat effect">
+          <div class="stat-label">Relics owned after</div>
+          <div class="stat-value" id="owned-after">0</div>
+          <div class="stat-note" id="owned-note"></div>
+        </div>
+      </div>
+
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr id="breakdown-head"></tr></thead>
+          <tbody id="breakdown-body"></tbody>
+        </table>
+      </div>
+    </section>
+    </div>
+
+    <div class="calc" id="panel-level-up" role="tabpanel" aria-labelledby="tab-level-up" hidden>
+    <section class="panel" aria-labelledby="level-heading">
+      <h2 id="level-heading">Level up</h2>
+
+      <div class="fields">
+        <div class="wide">
+          <label for="lvl-relic">Relic</label>
+          <select id="lvl-relic"></select>
+          <p class="hint" id="lvl-relic-hint"></p>
+        </div>
+
+        <div class="tally">
+          <label for="lvl-current">Current level</label>
+          <input id="lvl-current" type="number" inputmode="numeric" min="1" step="1" value="1">
+          <p class="hint" id="lvl-current-hint"></p>
+        </div>
+
+        <div class="tally">
+          <label for="lvl-target">Target level</label>
+          <input id="lvl-target" type="number" inputmode="numeric" min="2" step="1" value="10">
+          <p class="hint" id="lvl-target-hint"></p>
+        </div>
+
+        <div class="tally" id="lvl-oopart-field">
+          <label for="lvl-oopart">OOPArt Compact level</label>
+          <input id="lvl-oopart" type="number" inputmode="numeric" min="0" step="1" value="1">
+          <p class="hint" id="lvl-oopart-hint"></p>
+        </div>
+
+        <div class="stat effect oopart-stat" id="lvl-oopart-stat">
+          <div class="stat-label">Level up cost reduction</div>
+          <div class="stat-value" id="lvl-reduction">0%</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="level-results-heading">
+      <h2 id="level-results-heading">Level up results</h2>
+
+      <div class="summary trio">
+        <div class="stat cost">
+          <div class="stat-label">Total cost</div>
+          <div class="stat-value" id="lvl-total">0</div>
+          <div class="stat-note" id="lvl-total-note">Relic Fragments</div>
+        </div>
+        <div class="stat effect">
+          <div class="stat-label">Special effect</div>
+          <div class="stat-value" id="lvl-special">0%</div>
+          <div class="stat-note" id="lvl-special-note"></div>
+        </div>
+        <div class="stat basic">
+          <div class="stat-label">Basic effect</div>
+          <div class="stat-value" id="lvl-basic">0%</div>
+          <div class="stat-note" id="lvl-basic-note"></div>
+        </div>
+      </div>
+
+      <p class="status" id="lvl-status" role="status" aria-live="polite"></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr id="lvl-head"></tr></thead>
+          <tbody id="lvl-body"></tbody>
+        </table>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <script src="relics.js"></script>
+  <script src="common.js"></script>
+  <script src="summon.js"></script>
+  <script src="levelup.js"></script>
+  <script src="tabs.js"></script>
+</body>
+</html>
