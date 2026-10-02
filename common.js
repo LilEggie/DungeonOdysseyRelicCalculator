@@ -33,5 +33,13 @@
     return `${parseFloat(n.toFixed(3))}%`;
   }
 
-  window.RelicNumbers = { parseAmount, formatAmount, formatPercent };
+  /**
+   * Formats a value the same way its source is written in relics.js:
+   * shorthand ("1.28k") only if the source is shorthand, otherwise the full number.
+   */
+  function formatLike(source, n) {
+    return typeof source === "string" ? formatAmount(n) : String(Math.round(n));
+  }
+
+  window.RelicNumbers = { parseAmount, formatAmount, formatPercent, formatLike };
 })();
