@@ -2,7 +2,7 @@
 (() => {
   "use strict";
 
-  const { parseAmount, formatAmount } = window.RelicNumbers;
+  const { parseAmount, formatLike, formatAs, isShorthand } = window.RelicNumbers;
 
   /* ---------- Data ---------- */
 
@@ -13,7 +13,7 @@
   // DESTROY[n] = fragments needed to destroy a relic while owning n.
   const DESTROY = SUMMON_COSTS.map((row) => parseAmount(row.destroy));
   const destroyText = (owned) =>
-    DESTROY[owned] > 0 ? formatAmount(DESTROY[owned]) : "—";
+    DESTROY[owned] > 0 ? formatLike(SUMMON_COSTS[owned].destroy, DESTROY[owned]) : "—";
   const EPSILON = 1e-6;
 
   /* ---------- Elements ---------- */
@@ -101,8 +101,8 @@
     }));
   }
 
-  /** steps: [{ number, cost, spent, left? }] */
-  function renderTable(owned, steps, budget) {
+  /** steps: [{ number, cost, spent, spentShort, left?, leftShort? }] */
+  function renderTable(owned, steps, budget, budgetShort) {
     const showRemaining = budget != null;
     renderHead(showRemaining);
 
@@ -114,25 +114,25 @@
       cell("0", "num", "Total spent"),
       cell(destroyText(owned), "num", "Destroy cost"),
     );
-    if (showRemaining) start.append(cell(formatAmount(budget), "num", "Fragments left"));
+    if (showRemaining) start.append(cell(formatAs(budgetShort, budget), "num", "Fragments left"));
 
     const rows = steps.map((step) => {
       const tr = document.createElement("tr");
       tr.append(
         cell(`${step.number - 1} → ${step.number}`, "title"),
-        cell(formatAmount(step.cost), "num cost", "Cost"),
-        cell(formatAmount(step.spent), "num", "Total spent"),
+        cell(formatLike(SUMMON_COSTS[step.number - 1].nextCost, step.cost), "num cost", "Cost"),
+        cell(formatAs(step.spentShort, step.spent), "num", "Total spent"),
         cell(destroyText(step.number), "num destroy", "Destroy cost"),
       );
-      if (showRemaining) tr.append(cell(formatAmount(step.left), "num muted", "Fragments left"));
+      if (showRemaining) tr.append(cell(formatAs(step.leftShort, step.left), "num muted", "Fragments left"));
       return tr;
     });
 
     els.body.replaceChildren(start, ...rows);
   }
 
-  function renderSummary(total, ownedAfter, note) {
-    els.totalCost.textContent = formatAmount(total);
+  function renderSummary(total, ownedAfter, note, totalShort = false) {
+    els.totalCost.textContent = formatAs(totalShort, total);
     els.totalNote.textContent = note;
     els.ownedAfter.textContent = String(ownedAfter);
     els.ownedNote.textContent = `of ${MAX_OWNED} relics`;
@@ -184,12 +184,14 @@
 
     const steps = [];
     let spent = 0;
+    let spentShort = false;
     for (let i = owned; i < owned + count; i++) {
       spent += COSTS[i];
-      steps.push({ number: i + 1, cost: COSTS[i], spent });
+      spentShort ||= isShorthand(SUMMON_COSTS[i].nextCost);
+      steps.push({ number: i + 1, cost: COSTS[i], spent, spentShort });
     }
 
-    renderSummary(spent, owned + count, "Relic Fragments");
+    renderSummary(spent, owned + count, "Relic Fragments", spentShort);
     renderTable(owned, steps);
     setStatus(owned + count === MAX_OWNED ? "This completes your collection." : "");
   }
@@ -207,22 +209,34 @@
     }
 
     const steps = [];
+    // The budget is typed by the player, so it's shorthand if they typed it that way.
+    const budgetShort = /[a-z]/i.test(raw);
     let spent = 0;
+    let spentShort = false;
     let i = owned;
     while (i < MAX_OWNED && spent + COSTS[i] <= budget + EPSILON) {
       spent += COSTS[i];
-      steps.push({ number: i + 1, cost: COSTS[i], spent, left: budget - spent });
+      spentShort ||= isShorthand(SUMMON_COSTS[i].nextCost);
+      steps.push({
+        number: i + 1,
+        cost: COSTS[i],
+        spent,
+        spentShort,
+        left: budget - spent,
+        leftShort: budgetShort || spentShort,
+      });
       i++;
     }
 
-    renderSummary(spent, i, `${formatAmount(budget - spent)} left over`);
-    renderTable(owned, steps, budget);
+    const leftShort = budgetShort || spentShort;
+    renderSummary(spent, i, `${formatAs(leftShort, budget - spent)} left over`, spentShort);
+    renderTable(owned, steps, budget, budgetShort);
 
     if (i === MAX_OWNED) {
       setStatus("That's enough to summon every remaining relic.");
     } else {
       const shortfall = spent + COSTS[i] - budget;
-      setStatus(`The next summon (${i} → ${i + 1}) costs ${formatAmount(COSTS[i])}. You need ${formatAmount(shortfall)} more fragments for it.`);
+      setStatus(`The next summon (${i} → ${i + 1}) costs ${formatLike(SUMMON_COSTS[i].nextCost, COSTS[i])}. You need ${formatAs(leftShort || isShorthand(SUMMON_COSTS[i].nextCost), shortfall)} more fragments for it.`);
     }
   }
 

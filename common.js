@@ -38,8 +38,21 @@
    * shorthand ("1.28k") only if the source is shorthand, otherwise the full number.
    */
   function formatLike(source, n) {
-    return typeof source === "string" ? formatAmount(n) : String(Math.round(n));
+    return formatAs(isShorthand(source), n);
   }
 
-  window.RelicNumbers = { parseAmount, formatAmount, formatPercent, formatLike };
+  /** True when a relics.js value is written in shorthand ("1.28k"), false for plain numbers. */
+  function isShorthand(source) {
+    return typeof source === "string";
+  }
+
+  /**
+   * Formats a calculated value: shorthand if any shorthand value went into
+   * the calculation, otherwise the full number.
+   */
+  function formatAs(shorthand, n) {
+    return shorthand ? formatAmount(n) : String(Math.round(n));
+  }
+
+  window.RelicNumbers = { parseAmount, formatAmount, formatPercent, formatLike, formatAs, isShorthand };
 })();

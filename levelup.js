@@ -2,7 +2,7 @@
 (() => {
   "use strict";
 
-  const { parseAmount, formatAmount, formatPercent, formatLike } = window.RelicNumbers;
+  const { parseAmount, formatPercent, formatLike, formatAs, isShorthand } = window.RelicNumbers;
 
   /* ---------- Data ---------- */
 
@@ -175,7 +175,7 @@
       tr.append(
         cell(`${step.from} → ${step.to}`, "title"),
         cell(formatLike(step.source, step.cost), "num cost", "Cost"),
-        cell(formatAmount(step.spent), "num", "Total spent"),
+        cell(formatAs(step.spentShort, step.spent), "num", "Total spent"),
         cell(formatPercent(step.special), "num effect", "Special effect"),
         cell(formatPercent(step.basic), "num basic", "Basic effect"),
       );
@@ -276,15 +276,18 @@
 
     const steps = [];
     let spent = 0;
+    let spentShort = false;
     for (let level = current; level < target; level++) {
       const cost = Math.round(parseAmount(costs[level - 1]) * factor);
       spent += cost;
+      spentShort ||= isShorthand(costs[level - 1]);
       steps.push({
         from: level,
         to: level + 1,
         cost,
         source: costs[level - 1],
         spent,
+        spentShort,
         basic: basicAt(relic, level + 1),
         special: specialAt(relic, level + 1),
       });
@@ -293,7 +296,7 @@
     const special = specialAt(relic, target);
     const maxed = relic.specialEffectMax != null && special >= relic.specialEffectMax;
 
-    els.total.textContent = formatAmount(spent);
+    els.total.textContent = formatAs(spentShort, spent);
     els.totalNote.textContent = reduced
       ? `After ${formatPercent(reduction)} OOPArt reduction`
       : "OOPArt Compact's own costs aren't reduced";
