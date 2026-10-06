@@ -51,10 +51,12 @@
   }
 
   const usesOOPArt = (relic) => relic.useOOPArt !== false;
-  const fillValue = (template, value) => template.replaceAll("{value}", formatValue(value));
-  const describe = (relic, value) => fillValue(relic.description, value);
-  const BASIC_DESCRIPTION = "+{value}% Jinwoo's ATK";
-  const describeBasic = (value) => fillValue(BASIC_DESCRIPTION, value);
+  /** Special effect value with the relic's unit: "29.75%", "1.05s". */
+  const formatSpecial = (relic, value) => `${formatValue(value)}${relic.specialEffectUnit ?? "%"}`;
+  const fillValue = (template, text) => template.replaceAll("{value}", text);
+  const describe = (relic, value) => fillValue(relic.description, formatSpecial(relic, value));
+  const BASIC_DESCRIPTION = "+{value} Jinwoo's ATK";
+  const describeBasic = (value) => fillValue(BASIC_DESCRIPTION, formatPercent(value));
 
   /* ---------- Elements ---------- */
 
@@ -167,7 +169,7 @@
       cell(`Starting at level ${current}`, "title"),
       cell("—", "num", "Cost"),
       cell("0", "num", "Total spent"),
-      cell(formatPercent(specialAt(relic, current)), "num", "Special effect"),
+      cell(formatSpecial(relic, specialAt(relic, current)), "num", "Special effect"),
       cell(formatPercent(basicAt(relic, current)), "num", "Basic effect"),
     );
 
@@ -177,7 +179,7 @@
         cell(`${step.from} → ${step.to}`, "title"),
         cell(formatLike(step.source, step.cost), "num cost", "Cost"),
         cell(formatAs(step.spentShort, step.spent), "num", "Total spent"),
-        cell(formatPercent(step.special), "num effect", "Special effect"),
+        cell(formatSpecial(relic, step.special), "num effect", "Special effect"),
         cell(formatPercent(step.basic), "num basic", "Basic effect"),
       );
       return tr;
@@ -193,7 +195,7 @@
     if (Number.isInteger(level)) {
       els.basic.textContent = formatPercent(basicAt(relic, level));
       els.basicNote.textContent = describeBasic(basicAt(relic, level));
-      els.special.textContent = formatPercent(specialAt(relic, level));
+      els.special.textContent = formatSpecial(relic, specialAt(relic, level));
       els.specialNote.textContent = describe(relic, specialAt(relic, level));
     } else {
       els.basic.textContent = els.special.textContent = "—";
@@ -303,7 +305,7 @@
       : "OOPArt Compact's own costs aren't reduced";
     els.basic.textContent = formatPercent(basicAt(relic, target));
     els.basicNote.textContent = describeBasic(basicAt(relic, target));
-    els.special.textContent = formatPercent(special);
+    els.special.textContent = formatSpecial(relic, special);
     els.specialNote.textContent = describe(relic, special) + (maxed ? " (max)" : "");
 
     renderTable(relic, current, steps);
@@ -311,7 +313,7 @@
     if (maxed) {
       const maxLevel = Math.ceil((relic.specialEffectMax - relic.specialEffectMin) / relic.specialEffectPerLevel) + 1;
       setStatus(maxLevel <= target
-        ? `The special effect reaches its max of ${formatPercent(relic.specialEffectMax)} at level ${maxLevel}.`
+        ? `The special effect reaches its max of ${formatSpecial(relic, relic.specialEffectMax)} at level ${maxLevel}.`
         : "");
     } else {
       setStatus("");
