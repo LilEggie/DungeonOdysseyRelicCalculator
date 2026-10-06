@@ -34,6 +34,8 @@ const SUMMON_COSTS = [
   { owned: 29, nextCost: "213.64k", destroy: 3780 },
   { owned: 30, nextCost: "273.74k", destroy: 4280 },
   { owned: 31, nextCost: "350.03k", destroy: 4860 },
+  { owned: 32, nextCost: "446.69k", destroy: 5500 },
+  { owned: 33, nextCost: "569.01k", destroy: 6230 },
 ];
 
 const OOPART = {
@@ -342,6 +344,13 @@ const RELICS = [
     specialEffectPerLevel: 3,
   },
   {
+    name: "Naga Crown",
+    description: "+% Jinwoo's ATK in Tome of Liberation",
+    type: "T1_CHEAP",
+    specialEffectMin: 10,
+    specialEffectPerLevel: 1,
+  },
+  {
     name: "Goblet of Reverence",
     description: "+% DMG dealt to Beasts in Areas",
     type: "T1_CHEAP",
@@ -429,6 +438,14 @@ const RELICS = [
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
+  },
+  {
+    name: "Flame Elixir",
+    description: "-% Mana consumption of Flame skills",
+    type: "T1_EXPENSIVE",
+    specialEffectMin: 5,
+    specialEffectPerLevel: 0.25,
+    levelCap: 40,
   },
   {
     name: "Red Gem Beetle",
