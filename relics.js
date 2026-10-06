@@ -36,6 +36,7 @@ const SUMMON_COSTS = [
   { owned: 31, nextCost: "350.03k", destroy: 4860 },
   { owned: 32, nextCost: "446.69k", destroy: 5500 },
   { owned: 33, nextCost: "569.01k", destroy: 6230 },
+  { owned: 34, nextCost: "723.57k", destroy: 7040 },
 ];
 
 const OOPART = {
@@ -379,6 +380,14 @@ const RELICS = [
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
+    levelCap: 40,
+  },
+  {
+    name: "Master of Time",
+    description: "+{value} s Garden of Illusions time",
+    type: "T1_EXPENSIVE",
+    specialEffectMin: 1,
+    specialEffectPerLevel: 0.05,
     levelCap: 40,
   },
   {
