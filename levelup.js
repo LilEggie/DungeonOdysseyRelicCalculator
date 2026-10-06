@@ -2,7 +2,7 @@
 (() => {
   "use strict";
 
-  const { parseAmount, formatPercent, formatLike, formatAs, isShorthand } = window.RelicNumbers;
+  const { parseAmount, formatValue, formatPercent, formatLike, formatAs, isShorthand } = window.RelicNumbers;
 
   /* ---------- Data ---------- */
 
@@ -51,9 +51,10 @@
   }
 
   const usesOOPArt = (relic) => relic.useOOPArt !== false;
-  const describe = (relic, value) => relic.description.replace("%", formatPercent(value));
-  const BASIC_DESCRIPTION = "+% Jinwoo's ATK";
-  const describeBasic = (value) => BASIC_DESCRIPTION.replace("%", formatPercent(value));
+  const fillValue = (template, value) => template.replaceAll("{value}", formatValue(value));
+  const describe = (relic, value) => fillValue(relic.description, value);
+  const BASIC_DESCRIPTION = "+{value}% Jinwoo's ATK";
+  const describeBasic = (value) => fillValue(BASIC_DESCRIPTION, value);
 
   /* ---------- Elements ---------- */
 

@@ -284,7 +284,7 @@ const T1_CHEAP_RELICS = {
  *
  *   description:
  *     A description of the relic's special effect.
- *     Use "%" to represent the value of the special effect
+ *     Use "{value}" to represent the special effect value; add "%" after it if needed.
  *
  *   type:
  *     The relic's type/category used by the game.
@@ -314,7 +314,7 @@ const T1_CHEAP_RELICS = {
 const RELICS = [
   {
     name: "Scout Marker",
-    description: "After completing an Altar Offering, skip % of the current Area",
+    description: "After completing an Altar Offering, skip {value}% of the current Area",
     type: "T1_EXPENSIVE",
     specialEffectMin: 20,
     specialEffectPerLevel: 0.25,
@@ -322,7 +322,7 @@ const RELICS = [
   },
   {
     name: "Camouflage",
-    description: "% chance to skip normal monsters in cleared areas",
+    description: "{value}% chance to skip normal monsters in cleared areas",
     type: "T1_EXPENSIVE",
     specialEffectMin: 28,
     specialEffectMax: 100,
@@ -331,35 +331,35 @@ const RELICS = [
   },
   {
     name: "Waterproof Compass",
-    description: "+% rewards from Dark Hammer Mine",
+    description: "+{value}% rewards from Dark Hammer Mine",
     type: "T1_CHEAP",
     specialEffectMin: 30,
     specialEffectPerLevel: 1.5,
   },
   {
     name: "Ornate Naga Head",
-    description: "+% companion ATK in Tome of Liberation",
+    description: "+{value}% companion ATK in Tome of Liberation",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 3,
   },
   {
     name: "Naga Crown",
-    description: "+% Jinwoo's ATK in Tome of Liberation",
+    description: "+{value}% Jinwoo's ATK in Tome of Liberation",
     type: "T1_CHEAP",
     specialEffectMin: 10,
     specialEffectPerLevel: 1,
   },
   {
     name: "Goblet of Reverence",
-    description: "+% DMG dealt to Beasts in Areas",
+    description: "+{value}% DMG dealt to Beasts in Areas",
     type: "T1_CHEAP",
     specialEffectMin: 10,
     specialEffectPerLevel: 1,
   },
   {
     name: "Magic Mirror",
-    description: "+% Jinwoo's ATK in Naga Gate",
+    description: "+{value}% Jinwoo's ATK in Naga Gate",
     type: "T1_EXPENSIVE",
     specialEffectMin: 50,
     specialEffectPerLevel: 2,
@@ -367,7 +367,7 @@ const RELICS = [
   },
   {
     name: "Infinite Kettle",
-    description: "+% rewards from Tome of Liberation (companion equipment excluded)",
+    description: "+{value}% rewards from Tome of Liberation (companion equipment excluded)",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -375,7 +375,7 @@ const RELICS = [
   },
   {
     name: "Star Hammer",
-    description: "+% equipment drop rate in Areas",
+    description: "+{value}% equipment drop rate in Areas",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -383,7 +383,7 @@ const RELICS = [
   },
   {
     name: "Magic Coral",
-    description: "+% rewards obtained from Garden of Illusions",
+    description: "+{value}% rewards obtained from Garden of Illusions",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -391,42 +391,42 @@ const RELICS = [
   },
   {
     name: "Shocking Tail",
-    description: "+% Lightning skill ATK",
+    description: "+{value}% Lightning skill ATK",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Hot Tail",
-    description: "+% Flame skill ATK",
+    description: "+{value}% Flame skill ATK",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Cold Tail",
-    description: "+% Ice skill ATK",
+    description: "+{value}% Ice skill ATK",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Crown of Devotion",
-    description: "+% Flame companion ATK",
+    description: "+{value}% Flame companion ATK",
     type: "T1_CHEAP",
     specialEffectMin: 40,
     specialEffectPerLevel: 2,
   },
   {
     name: "Iris' Crown",
-    description: "+% Ice companion ATK",
+    description: "+{value}% Ice companion ATK",
     type: "T1_CHEAP",
     specialEffectMin: 40,
     specialEffectPerLevel: 2,
   },
   {
     name: "Thunder Elixir",
-    description: "-% Mana consumption of Lightning skills",
+    description: "-{value}% Mana consumption of Lightning skills",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -434,14 +434,14 @@ const RELICS = [
   },
   {
     name: "Yellow Gem Beetle",
-    description: "+% ATK DMG of all Lightning-types",
+    description: "+{value}% ATK DMG of all Lightning-types",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Flame Elixir",
-    description: "-% Mana consumption of Flame skills",
+    description: "-{value}% Mana consumption of Flame skills",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -449,28 +449,28 @@ const RELICS = [
   },
   {
     name: "Red Gem Beetle",
-    description: "+% ATK DMG of all Flame-types",
+    description: "+{value}% ATK DMG of all Flame-types",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Blue Gem Beetle",
-    description: "+% ATK DMG of all Ice-types",
+    description: "+{value}% ATK DMG of all Ice-types",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Shining Naga",
-    description: "+% all ATK for each Relic held",
+    description: "+{value}% all ATK for each Relic held",
     type: "T1_CHEAP",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
   },
   {
     name: "OOPArt Compact",
-    description: "-% Relic level up cost",
+    description: "-{value}% Relic level up cost",
     type: "OOPART",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -479,7 +479,7 @@ const RELICS = [
   },
   {
     name: "Silver Scales",
-    description: "-% companion level up cost",
+    description: "-{value}% companion level up cost",
     type: "T1_CHEAP",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -487,7 +487,7 @@ const RELICS = [
   },
   {
     name: "Trump Card Case",
-    description: "-% Jinwoo's level up cost",
+    description: "-{value}% Jinwoo's level up cost",
     type: "T1_CHEAP",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -495,7 +495,7 @@ const RELICS = [
   },
   {
     name: "Censer of Foresight",
-    description: "+% Relic Fragments upon Altar Offering",
+    description: "+{value}% Relic Fragments upon Altar Offering",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -503,7 +503,7 @@ const RELICS = [
   },
   {
     name: "Old Elixir",
-    description: "+% Labyrinth Energy gain",
+    description: "+{value}% Labyrinth Energy gain",
     type: "T1_EXPENSIVE",
     specialEffectMin: 10,
     specialEffectPerLevel: 0.5,
@@ -511,14 +511,14 @@ const RELICS = [
   },
   {
     name: "Commemorative Coin",
-    description: "+% Down Gem gain",
+    description: "+{value}% Down Gem gain",
     type: "T1_CHEAP",
     specialEffectMin: 50,
     specialEffectPerLevel: 2.5,
   },
   {
     name: "Fermata",
-    description: "+% skill duration",
+    description: "+{value}% skill duration",
     type: "T1_EXPENSIVE",
     specialEffectMin: 5,
     specialEffectPerLevel: 0.25,
@@ -526,14 +526,14 @@ const RELICS = [
   },
   {
     name: "Forgotten Ancient Dragon",
-    description: "+% crit DMG of All allies",
+    description: "+{value}% crit DMG of All allies",
     type: "T1_CHEAP",
     specialEffectMin: 50,
     specialEffectPerLevel: 2.5,
   },
   {
     name: "Sacred Serpent",
-    description: "+% crit rate of All allies",
+    description: "+{value}% crit rate of All allies",
     type: "T1_EXPENSIVE",
     specialEffectMin: 2.5,
     specialEffectPerLevel: 0.125,
@@ -541,21 +541,21 @@ const RELICS = [
   },
   {
     name: "Scale Shield",
-    description: "+% non-attribute skill ATK",
+    description: "+{value}% non-attribute skill ATK",
     type: "T1_CHEAP",
     specialEffectMin: 40,
     specialEffectPerLevel: 2,
   },
   {
     name: "Charging Horn",
-    description: "+% companion ATK",
+    description: "+{value}% companion ATK",
     type: "T1_CHEAP",
     specialEffectMin: 20,
     specialEffectPerLevel: 1,
   },
   {
     name: "Aldebaran's Guard",
-    description: "+% Jinwoo's ATK",
+    description: "+{value}% Jinwoo's ATK",
     type: "T1_CHEAP",
     specialEffectMin: 5,
     specialEffectPerLevel: 1,

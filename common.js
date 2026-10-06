@@ -28,9 +28,14 @@
     return `${scaled}${NUMBER_SUFFIXES[tier]}`;
   }
 
+  /** 29.75 -> "29.75", 2.625 -> "2.625", 30.0 -> "30". */
+  function formatValue(n) {
+    return String(parseFloat(n.toFixed(3)));
+  }
+
   /** 29.75 -> "29.75%", 2.625 -> "2.625%". */
   function formatPercent(n) {
-    return `${parseFloat(n.toFixed(3))}%`;
+    return `${formatValue(n)}%`;
   }
 
   /**
@@ -54,5 +59,5 @@
     return shorthand ? formatAmount(n) : String(Math.round(n));
   }
 
-  window.RelicNumbers = { parseAmount, formatAmount, formatPercent, formatLike, formatAs, isShorthand };
+  window.RelicNumbers = { parseAmount, formatAmount, formatValue, formatPercent, formatLike, formatAs, isShorthand };
 })();
