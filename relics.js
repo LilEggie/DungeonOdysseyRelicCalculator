@@ -37,6 +37,7 @@ const SUMMON_COSTS = [
   { owned: 32, nextCost: "446.69k", destroy: 5500 },
   { owned: 33, nextCost: "569.01k", destroy: 6230 },
   { owned: 34, nextCost: "723.57k", destroy: 7040 },
+  { owned: 35, nextCost: "918.61k", destroy: 7960 },
 ];
 
 const OOPART = {
@@ -351,6 +352,13 @@ const RELICS = [
   {
     name: "Naga Crown",
     description: "+{value} Jinwoo's ATK in Tome of Liberation",
+    type: "T1_CHEAP",
+    specialEffectMin: 10,
+    specialEffectPerLevel: 1,
+  },
+  {
+    name: "Goblet of Purification",
+    description: "+{value} DMG dealt to normal monsters in Areas",
     type: "T1_CHEAP",
     specialEffectMin: 10,
     specialEffectPerLevel: 1,
