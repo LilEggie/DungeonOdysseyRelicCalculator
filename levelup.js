@@ -10,11 +10,15 @@
     OOPART: OOPART,
     T1_EXPENSIVE: T1_EXPENSIVE_RELICS,
     T1_CHEAP: T1_CHEAP_RELICS,
+    T2_EXPENSIVE: T2_EXPENSIVE_RELICS,
+    T2_CHEAP: T2_CHEAP_RELICS,
   };
   const TYPE_LABELS = {
     OOPART: "OOPArt",
     T1_EXPENSIVE: "Tier 1, expensive",
     T1_CHEAP: "Tier 1, cheap",
+    T2_EXPENSIVE: "Tier 2, expensive",
+    T2_CHEAP: "Tier 2, cheap",
   };
 
   const OOPART_RELIC = RELICS.find((r) => r.type === "OOPART");
